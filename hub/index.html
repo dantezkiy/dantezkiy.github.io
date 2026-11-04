@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Личный Студенческий Диск — защищённое персональное облачное хранилище учебных материалов, лекций, лабораторных работ и архивов по предметам.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#080808">
+  <link rel="canonical" href="https://dantezkiysite.netlify.app/">
+  
+  <!-- Preconnect & DNS-Prefetch for Performance -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://kismrqmcvzdavbxueghc.supabase.co">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="Студенческий Диск — Персональное облако">
+  <meta property="og:description" content="Личное защищённое облачное хранилище учебных материалов и файлов по предметам.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dantezkiysite.netlify.app">
+  <meta property="og:image" content="https://dantezkiysite.netlify.app/og-cover.png">
+  
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Студенческий Диск — Персональное облако">
+  <meta name="twitter:description" content="Личное защищённое облачное хранилище учебных материалов и файлов по предметам.">
+  <meta name="twitter:image" content="https://dantezkiysite.netlify.app/og-cover.png">
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23b50000'><path d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/></svg>">
+  <title>Студенческий Диск — Персональное облако</title>
+  
+  <!-- Tailwind CSS with Typography Plugin -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          screens: {
+            'xs': '420px'
+          },
+          spacing: {
+            '13': '3.25rem'
+          },
+          colors: {
+            noir: {
+              950: '#070707',
+              900: '#0c0c0c',
+              850: '#121212',
+              800: '#161616',
+              750: '#1c1c1c',
+              700: '#222222',
+              650: '#262626',
+              600: '#2a2a2a'
+            },
+            crimson: {
+              950: '#350000',
+              900: '#520000',
+              850: '#6e0000',
+              800: '#850000',
+              700: '#970000',
+              600: '#b50000',
+              500: '#cc0000',
+              400: '#ef4444'
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Pinned Stable Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <!-- JSZip & Mammoth are lazy-loaded on demand in app.js for optimal performance -->
+
+  <style>
+    /* ================= DESIGN SYSTEM: SOPRANOS NOIR ================= */
+    :root {
+      --bg-base: #080808;
+      --card-bg: #121212;
+      --card-hover: #161616;
+      --border-dark: #222222;
+      --border-medium: #2a2a2a;
+      --border-hover: #850000;
+      --crimson-primary: #970000;
+      --crimson-hover: #b50000;
+      --text-muted: #a3a3a3;
+    }
+
+    /* Universal Dark Scrollbars (Chrome, Safari, Firefox, Edge) */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #282828 #0a0a0a;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(circle at 80% 12%, rgba(150, 0, 0, 0.16), transparent 40%),
+        radial-gradient(circle at 12% 88%, rgba(100, 0, 0, 0.10), transparent 45%),
+        repeating-linear-gradient(135deg, transparent 0 60px, rgba(255, 255, 255, 0.012) 61px 62px);
+      color: #eeeeee;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Accessibility focus rings */
+    *:focus-visible {
+      outline: 2px solid #ef4444 !important;
+      outline-offset: 2px !important;
+    }
+
+    /* PIN Masking */
+    .pin-masked {
+      -webkit-text-security: disc;
+    }
+
+    /* Tactile Buttons */
+    .btn-tactile-primary {
+      background: linear-gradient(180deg, #b50000 0%, #850000 100%);
+      border: 1px solid #d00000;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 14px rgba(133, 0, 0, 0.35);
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-tactile-primary:hover:not(:disabled) {
+      background: linear-gradient(180deg, #cc0000 0%, #970000 100%);
+      border-color: #ef4444;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 6px 20px rgba(181, 0, 0, 0.45);
+      transform: translateY(-1px);
+    }
+    .btn-tactile-primary:active:not(:disabled) {
+      transform: translateY(1px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    .btn-tactile-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-tactile-secondary {
+      background: #161616;
+      border: 1px solid #282828;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: all 0.18s ease;
+    }
+    .btn-tactile-secondary:hover:not(:disabled) {
+      background: #1c1c1c;
+      border-color: #850000;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .btn-tactile-secondary:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+    .btn-tactile-secondary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Living Cards */
+    .vault-card {
+      background: #121212;
+      border: 1px solid #222222;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .vault-card:hover {
+      border-color: rgba(181, 0, 0, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(150, 0, 0, 0.15);
+    }
+
+    /* Webkit Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #282828;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #850000;
+    }
+
+    /* Keyframe Animations */
+    @keyframes subtlePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(0.995); }
+    }
+    .anim-pulse-subtle {
+      animation: subtlePulse 3s infinite ease-in-out;
+    }
+
+    @keyframes liveDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+    .live-dot-pulse {
+      display: inline-block;
+      animation: liveDot 2s infinite ease-in-out;
+      transform-origin: center;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* DOCX Typography Formatting */
+    .docx-preview-content {
+      color: #eeeeee;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    .docx-preview-content h1, .docx-preview-content h2, .docx-preview-content h3 {
+      color: #ffffff;
+      font-weight: 700;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .docx-preview-content p {
+      margin-bottom: 0.75rem;
+    }
+    .docx-preview-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border: 1px solid #2a2a2a;
+    }
+    .docx-preview-content th, .docx-preview-content td {
+      border: 1px solid #2a2a2a;
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    .docx-preview-content th {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .docx-preview-content ul, .docx-preview-content ol {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body class="selection:bg-[#970000] selection:text-white font-sans overflow-x-hidden">
+
+  <!-- A11y Skip Link -->
+  <a href="#mainContentArea" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#b50000] focus:text-white focus:rounded-lg focus:shadow-xl focus:font-bold focus:border focus:border-[#ef4444]">
+    Перейти к содержимому
+  </a>
+
+  <!-- ================= TOAST NOTIFICATION CONTAINER (RESPONSIVE ALIGNED) ================= -->
+  <div id="toastContainer" role="region" aria-live="polite" aria-label="Уведомления" class="fixed bottom-4 sm:bottom-6 inset-x-4 sm:inset-auto sm:right-6 z-50 flex flex-col space-y-2 pointer-events-none sm:max-w-sm w-auto"></div>
+
+  <!-- ================= 1. PIN ACCESS SCREEN (SAFE VAULT STYLE) ================= -->
+  <div id="pinScreen" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#070707]/95 backdrop-blur-md overflow-y-auto">
+    <div class="w-full max-w-sm sm:max-w-md bg-[#111111] border border-[#262626] rounded-2xl p-4 xs:p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+      
+      <!-- Ambient red glow corner lights -->
+      <div class="absolute -top-20 -left-20 w-48 h-48 bg-[#970000]/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-20 -right-20 w-48 h-48 bg-[#6e0000]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Header badge with collision protection -->
+      <div class="flex items-center justify-between pb-3 sm:pb-4 border-b border-[#202020] gap-2 flex-wrap">
+        <div class="flex items-center space-x-1.5 min-w-0">
+          <span class="w-2 h-2 rounded-full bg-[#f87171] live-dot-pulse flex-shrink-0" aria-hidden="true"></span>
+          <span class="text-[10px] xs:text-[11px] font-mono tracking-wider text-[#a3a3a3] uppercase truncate">STUDENT CLOUD // SECURE</span>
+        </div>
+        <span id="pinWeekBadge" class="text-[10px] xs:text-[11px] font-mono font-bold text-[#f87171] bg-[#850000]/20 px-2 py-0.5 rounded border border-[#850000]/40 flex-shrink-0">
+          КОД ДОСТУПА
+        </span>
+      </div>
+
+      <!-- Icon & Main Title -->
+      <div class="text-center mt-4 sm:mt-6">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 mx-auto rounded-xl bg-gradient-to-b from-[#b50000] to-[#750000] text-white flex items-center justify-center shadow-lg shadow-red-950/60 border border-[#d00000]/50 mb-3">
+          <i data-lucide="shield-check" class="w-6 h-6 sm:w-7 sm:h-7" aria-hidden="true"></i>
+        </div>
+        <h1 class="text-base xs:text-lg font-black text-white tracking-wide uppercase font-sans">Личный Студенческий Диск</h1>
+        <p class="text-xs text-[#a3a3a3] mt-1">Введите 4-значный код доступа к вашему архиву</p>
+      </div>
+
+      <!-- PIN Input Form -->
+      <form id="pinForm" onsubmit="handlePinSubmit(event)" class="mt-5 sm:mt-6 space-y-4">
+        
+        <!-- 4-digit PIN Boxes with Visibility Toggle -->
+        <div class="space-y-2">
+          <div class="flex justify-center items-center gap-1.5 xs:gap-2 sm:gap-3 py-1" id="pinInputsContainer">
+            <input 
+              type="password" 
+              inputmode="numeric" 
+              pattern="[0-9]*"
+              maxlength="1" 
+              id="pin0" 
+              aria-label="Цифра 1 из 4"
+              class="pin-digit-input pin-masked w-10 h-12 xs:w-12 xs:h-12 sm:w-14 sm:h-14 aspect-square text-center text-xl sm:text-2xl font-mono font-black bg-[#161616] border border-[#2b2b2b] rounded-xl text-white focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444] transition-all shadow-inner" 
+              autofocus 
+              autocomplete="one-time-code"
+            >
+            <input 
+              type="password" 
+              inputmode="numeric" 
+              pattern="[0-9]*"
+              maxlength="1" 
+              id="pin1" 
+              aria-label="Цифра 2 из 4"
+              class="pin-digit-input pin-masked w-10 h-12 xs:w-12 xs:h-12 sm:w-14 sm:h-14 aspect-square text-center text-xl sm:text-2xl font-mono font-black bg-[#161616] border border-[#2b2b2b] rounded-xl text-white focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444] transition-all shadow-inner" 
+              autocomplete="one-time-code"
+            >
+            <input 
+              type="password" 
+              inputmode="numeric" 
+              pattern="[0-9]*"
+              maxlength="1" 
+              id="pin2" 
+              aria-label="Цифра 3 из 4"
+              class="pin-digit-input pin-masked w-10 h-12 xs:w-12 xs:h-12 sm:w-14 sm:h-14 aspect-square text-center text-xl sm:text-2xl font-mono font-black bg-[#161616] border border-[#2b2b2b] rounded-xl text-white focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444] transition-all shadow-inner" 
+              autocomplete="one-time-code"
+            >
+            <input 
+              type="password" 
+              inputmode="numeric" 
+              pattern="[0-9]*"
+              maxlength="1" 
+              id="pin3" 
+              aria-label="Цифра 4 из 4"
+              class="pin-digit-input pin-masked w-10 h-12 xs:w-12 xs:h-12 sm:w-14 sm:h-14 aspect-square text-center text-xl sm:text-2xl font-mono font-black bg-[#161616] border border-[#2b2b2b] rounded-xl text-white focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444] transition-all shadow-inner" 
+              autocomplete="one-time-code"
+            >
+            <button 
+              type="button" 
+              id="btnTogglePinVisibility" 
+              onclick="togglePinVisibility()" 
+              title="Показать / скрыть код" 
+              aria-label="Показать или скрыть код доступа"
+              class="w-10 h-12 xs:w-12 xs:h-12 sm:w-14 sm:h-14 flex items-center justify-center text-[#a3a3a3] hover:text-white bg-[#141414] hover:bg-[#1a1a1a] border border-[#2b2b2b] rounded-xl transition-all flex-shrink-0"
+            >
+              <i data-lucide="eye" id="pinEyeIcon" class="w-4 h-4" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div id="pinError" role="alert" aria-live="polite" class="hidden text-center text-xs text-[#f87171] bg-[#850000]/15 border border-[#850000]/40 py-2 px-3 rounded-lg font-medium leading-relaxed">
+            Неверный код доступа! Попробуйте снова.
+          </div>
+        </div>
+
+        <!-- Options & Device Mode Selector -->
+        <div class="space-y-3 pt-1 text-xs">
+          <label class="flex items-center space-x-2 text-[#a3a3a3] hover:text-white cursor-pointer select-none transition-colors">
+            <input type="checkbox" id="rememberPinCheckbox" checked class="w-4 h-4 rounded bg-[#181818] border-[#2b2b2b] text-[#970000] focus:ring-0">
+            <span>Запомнить вход на этом браузере</span>
+          </label>
+
+          <!-- Device Mode Selector -->
+          <div class="p-3 rounded-xl bg-[#141414] border border-[#222222] space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-[#888888]">Режим этого устройства</span>
+              <span id="deviceTypeBadge" class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#202020] text-[#f87171] border border-[#303030]">УЧЕБНЫЙ ПК</span>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Выбор режима устройства">
+              <button 
+                type="button" 
+                id="btnRoleCollege" 
+                onclick="setDeviceRoleUI('college')" 
+                class="flex items-center space-x-2 p-2 rounded-lg border border-[#850000]/60 bg-[#850000]/20 text-white text-[11px] font-semibold transition-all shadow-sm"
+                aria-pressed="true"
+              >
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-[#f87171] flex-shrink-0" aria-hidden="true"></i>
+                <div class="text-left min-w-0">
+                  <div class="truncate">ПК в колледже</div>
+                  <div class="text-[9px] text-[#a3a3a3] font-normal truncate">Учебная сессия</div>
+                </div>
+              </button>
+
+              <button 
+                type="button" 
+                id="btnRoleMaster" 
+                onclick="setDeviceRoleUI('master')" 
+                class="flex items-center space-x-2 p-2 rounded-lg border border-[#282828] bg-[#181818] text-[#a3a3a3] hover:text-white text-[11px] font-semibold transition-all"
+                aria-pressed="false"
+              >
+                <i data-lucide="shield-check" class="w-4 h-4 text-[#888888] flex-shrink-0" aria-hidden="true"></i>
+                <div class="text-left min-w-0">
+                  <div class="truncate">Основной ПК</div>
+                  <div class="text-[9px] text-[#666666] font-normal truncate">Владелец (Дом)</div>
+                </div>
+              </button>
+            </div>
+
+            <p id="deviceRoleDescription" class="text-[10px] text-[#777777] leading-relaxed">
+              Безопасный режим для пар: компьютер в колледже не имеет прав администратора и не может завершить сессию вашего домашнего ПК.
+            </p>
+          </div>
+        </div>
+
+        <!-- Primary Action -->
+        <button type="submit" id="pinSubmitBtn" class="w-full py-3 btn-tactile-primary text-white font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center space-x-2">
+          <i data-lucide="key" class="w-4 h-4" aria-hidden="true"></i>
+          <span>Открыть хранилище</span>
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= 2. MAIN APPLICATION WORKSPACE ================= -->
+  <div id="mainApp" class="flex-1 flex flex-col hidden">
+    
+    <!-- TOP NAVIGATION BAR (ALIGNED FOR 2K/4K MONITORS) -->
+    <header class="bg-[#0c0c0c]/95 border-b border-[#222222] sticky top-0 z-30 backdrop-blur-md">
+      <div class="max-w-7xl 2xl:max-w-[1560px] mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        
+        <!-- Left: Brand Logo -->
+        <div 
+          class="flex items-center space-x-2.5 sm:space-x-3 cursor-pointer group min-w-0" 
+          onclick="selectSubject('ALL')" 
+          role="button" 
+          tabindex="0" 
+          aria-label="На главную страницу, показать все предметы"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); selectSubject('ALL');}"
+        >
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-b from-[#b50000] to-[#750000] text-white flex items-center justify-center border border-[#d00000]/40 shadow-md group-hover:scale-105 transition-all flex-shrink-0">
+            <i data-lucide="hard-drive" class="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center space-x-1.5 sm:space-x-2">
+              <h1 class="font-black text-xs sm:text-sm tracking-wide text-white uppercase truncate">Студенческий Диск</h1>
+              <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex-shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1 live-dot-pulse" aria-hidden="true"></span>
+                <span>ONLINE</span>
+              </span>
+            </div>
+            <p class="text-[10px] font-mono text-[#a3a3a3] tracking-wider uppercase hidden xs:block truncate">Личное облачное хранилище</p>
+          </div>
+        </div>
+
+        <!-- Middle: Quick Search (Desktop) -->
+        <div class="flex-1 max-w-md mx-2 hidden sm:block">
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 text-[#a3a3a3] absolute left-3.5 top-1/2 -translate-y-1/2" aria-hidden="true"></i>
+            <input 
+              type="text" 
+              id="fileSearchInput" 
+              placeholder="Поиск по названию файла..." 
+              oninput="handleSearchInput(event)"
+              aria-label="Поиск по названию файла"
+              class="w-full h-9 pl-9 pr-8 bg-[#141414] border border-[#262626] rounded-xl text-xs text-white placeholder-[#888888] focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444] transition-all"
+            >
+            <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-[#a3a3a3] hover:text-white p-0.5" aria-label="Очистить поиск">
+              <i data-lucide="x" class="w-3.5 h-3.5" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Action Bar -->
+        <div class="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
+          
+          <!-- Mobile search toggle button -->
+          <button 
+            type="button"
+            onclick="toggleMobileSearch()" 
+            id="mobileSearchToggleBtn"
+            title="Открыть поиск" 
+            aria-label="Открыть поиск по файлам"
+            class="sm:hidden h-9 w-9 flex items-center justify-center text-[#cccccc] hover:text-white bg-[#141414] border border-[#262626] rounded-lg transition-all"
+          >
+            <i data-lucide="search" class="w-4 h-4" aria-hidden="true"></i>
+          </button>
+
+          <!-- Storage capacity badge -->
+          <div class="hidden sm:flex items-center space-x-2 px-3 h-9 bg-[#121212] border border-[#222222] rounded-lg text-xs">
+            <i data-lucide="database" class="w-3.5 h-3.5 text-[#a3a3a3]" aria-hidden="true"></i>
+            <span id="storageUsageText" class="font-mono text-[11px] text-[#cccccc]">0.0 МБ / 1 000 МБ</span>
+          </div>
+
+          <!-- Weekly College Code Quick Widget (Master Device Only) -->
+          <div 
+            id="masterWeeklyCodeWidget" 
+            onclick="openWeeklyCodeModal()" 
+            role="button"
+            tabindex="0"
+            title="Нажмите, чтобы открыть защищённый код для пар" 
+            aria-label="Код для колледжа на эту неделю. Нажмите для открытия"
+            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); openWeeklyCodeModal();}"
+            class="hidden items-center space-x-1.5 px-2.5 sm:px-3 h-9 bg-[#151515] hover:bg-[#1e1e1e] border border-[#850000]/40 hover:border-[#f87171] rounded-lg text-xs cursor-pointer select-none transition-all group shadow-sm"
+          >
+            <i data-lucide="key" class="w-3.5 h-3.5 text-[#f87171] flex-shrink-0 group-hover:rotate-12 transition-transform" aria-hidden="true"></i>
+            <span class="text-[#a3a3a3] font-medium hidden lg:inline">Код для пар:</span>
+            <span id="headerWeeklyCodeText" class="font-mono font-black text-[#a3a3a3] group-hover:text-white tracking-widest text-[13px] bg-[#850000]/25 px-1.5 py-0.5 rounded border border-[#850000]/40 transition-colors">••••</span>
+            <i data-lucide="eye" id="headerCodeEyeIcon" class="w-3.5 h-3.5 text-[#777777] group-hover:text-[#f87171] transition-colors" aria-hidden="true"></i>
+          </div>
+
+          <!-- Devices Management Button (Master Device Only) -->
+          <button 
+            id="devicesManagerBtn" 
+            onclick="openDevicesModal()" 
+            title="Управление активными сессиями и устройствами" 
+            aria-label="Управление сессиями и устройствами"
+            class="hidden items-center space-x-1.5 px-2.5 h-9 bg-[#141414] hover:bg-[#1f1f1f] text-[#cccccc] hover:text-white border border-[#282828] hover:border-[#850000] rounded-lg text-xs font-semibold transition-all"
+          >
+            <i data-lucide="monitor-smartphone" class="w-3.5 h-3.5 text-[#f87171]" aria-hidden="true"></i>
+            <span class="hidden sm:inline">Устройства</span>
+            <span id="activeSessionsCountBadge" class="ml-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#850000]/30 text-[#f87171] border border-[#850000]/50 min-w-[18px] text-center">1</span>
+          </button>
+
+          <!-- Lock Button -->
+          <button 
+            onclick="handleLock()" 
+            title="Заблокировать диск (выйти)" 
+            aria-label="Заблокировать диск и выйти"
+            class="h-9 w-9 flex items-center justify-center text-[#a3a3a3] hover:text-[#f87171] hover:bg-[#850000]/15 rounded-lg border border-transparent hover:border-[#850000]/30 transition-all"
+          >
+            <i data-lucide="lock" class="w-4 h-4" aria-hidden="true"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Mobile Search Expandable Bar -->
+      <div id="mobileSearchContainer" class="hidden sm:hidden px-4 pb-3 pt-1 border-t border-[#1c1c1c] bg-[#0c0c0c]">
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 text-[#a3a3a3] absolute left-3.5 top-1/2 -translate-y-1/2" aria-hidden="true"></i>
+          <input 
+            type="text" 
+            id="mobileFileSearchInput" 
+            placeholder="Поиск по файлам..." 
+            oninput="handleMobileSearchInput(event)"
+            aria-label="Мобильный поиск по файлам"
+            class="w-full pl-9 pr-8 py-2 bg-[#141414] border border-[#262626] rounded-xl text-xs text-white placeholder-[#888888] focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444]"
+          >
+          <button id="clearMobileSearchBtn" onclick="clearMobileSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-[#a3a3a3] hover:text-white p-0.5" aria-label="Очистить поиск">
+            <i data-lucide="x" class="w-3.5 h-3.5" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <div class="flex-1 max-w-7xl 2xl:max-w-[1560px] w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-6 flex flex-col md:flex-row gap-5 sm:gap-6">
+      
+      <!-- LEFT SIDEBAR: SUBJECTS & STORAGE -->
+      <aside class="w-full md:w-64 flex-shrink-0 space-y-4" role="region" aria-label="Предметы и состояние памяти">
+        
+        <!-- Section Header with Create Button -->
+        <div class="flex items-center justify-between px-1">
+          <div class="flex items-center space-x-1.5">
+            <i data-lucide="folder-git-2" class="w-4 h-4 text-[#f87171]" aria-hidden="true"></i>
+            <h2 class="text-xs font-black uppercase tracking-wider text-[#a3a3a3]">Предметы</h2>
+          </div>
+          <button 
+            onclick="openCreateSubjectModal()" 
+            class="inline-flex items-center space-x-1 px-2.5 py-1 text-xs font-bold text-[#f87171] hover:text-white bg-[#850000]/15 hover:bg-[#970000] rounded-lg border border-[#850000]/30 transition-all"
+            aria-label="Создать новый предмет"
+          >
+            <i data-lucide="plus" class="w-3.5 h-3.5" aria-hidden="true"></i>
+            <span>Создать</span>
+          </button>
+        </div>
+
+        <!-- Subjects Navigation List -->
+        <nav id="subjectsNavList" class="space-y-1" aria-label="Список предметов">
+          <!-- Rendered dynamically -->
+        </nav>
+
+        <!-- Storage Capacity Widget -->
+        <div class="p-4 bg-[#121212] border border-[#222222] rounded-xl space-y-2.5 shadow-sm">
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-[#a3a3a3] font-medium text-[11px] uppercase tracking-wider">Память хранилища</span>
+            <span id="storagePercentText" class="text-[#f87171] font-mono font-bold text-[11px]">0.0%</span>
+          </div>
+          <div class="w-full bg-[#181818] h-2 rounded-full overflow-hidden border border-[#262626]">
+            <div id="storageProgressBar" class="bg-gradient-to-r from-[#970000] via-[#b50000] to-[#ef4444] h-full w-[0%] transition-all duration-300"></div>
+          </div>
+          <div class="flex justify-between items-center text-[10px] text-[#a3a3a3] font-mono">
+            <span id="filesCountTotal">0 файлов</span>
+            <span>Лимит: 1 000 МБ</span>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- MAIN CONTENT AREA -->
+      <main id="mainContentArea" class="flex-1 flex flex-col space-y-4 min-w-0" role="main">
+        
+        <!-- Breadcrumb & Control Bar -->
+        <div class="bg-[#121212] border border-[#222222] p-3.5 sm:p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+          
+          <!-- Breadcrumb Title -->
+          <div class="min-w-0">
+            <nav aria-label="Навигация по разделам" class="flex items-center space-x-1.5 text-xs text-[#a3a3a3]">
+              <span 
+                role="button" 
+                tabindex="0" 
+                aria-label="Вернуться ко всем предметам"
+                class="hover:text-[#f87171] cursor-pointer font-bold tracking-wider uppercase transition-colors focus:outline-none focus:text-[#ef4444]" 
+                onclick="selectSubject('ALL')"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); selectSubject('ALL');}"
+              >ДИСК</span>
+              <span aria-hidden="true" id="breadcrumbSlash1">/</span>
+              <span 
+                role="button"
+                tabindex="0"
+                id="breadcrumbSubject"
+                class="hover:text-[#f87171] cursor-pointer transition-colors focus:outline-none focus:text-[#ef4444] truncate max-w-[140px] sm:max-w-[200px] hidden font-semibold"
+                onclick="selectSubfolder(null)"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); selectSubfolder(null);}"
+              ></span>
+              <span aria-hidden="true" id="breadcrumbSlash2" class="hidden">/</span>
+              <span class="text-white font-bold truncate text-xs" id="currentSubjectTitle">Все предметы</span>
+            </nav>
+            <p id="currentSubjectSubtitle" class="text-[11px] text-[#a3a3a3] mt-0.5 truncate">
+              Отображаются все сохранённые файлы
+            </p>
+          </div>
+
+          <!-- Action Buttons & Tools -->
+          <div class="flex items-center gap-2 flex-wrap">
+            
+            <!-- Sort Mode Selector -->
+            <div class="relative inline-block">
+              <select 
+                id="fileSortSelect" 
+                onchange="changeSortMode(this.value)" 
+                class="h-9 bg-[#181818] border border-[#262626] text-[#cccccc] hover:text-white rounded-lg px-2.5 text-xs focus:outline-none focus:border-[#ef4444] cursor-pointer transition-all flex items-center"
+                aria-label="Сортировка файлов"
+              >
+                <option value="date_desc">Сначала новые</option>
+                <option value="date_asc">Сначала старые</option>
+                <option value="name_asc">По имени (А-Я)</option>
+                <option value="name_desc">По имени (Я-А)</option>
+                <option value="size_desc">Сначала большие</option>
+                <option value="size_asc">Сначала маленькие</option>
+              </select>
+            </div>
+
+            <!-- View Mode Switcher -->
+            <div class="h-9 flex items-center bg-[#181818] px-1 rounded-lg border border-[#262626]" role="group" aria-label="Режим отображения файлов">
+              <button 
+                id="viewBtnGrid" 
+                onclick="switchViewMode('grid')" 
+                title="Сетка файлов" 
+                aria-label="Сетка файлов"
+                class="h-7 w-7 flex items-center justify-center rounded text-[#f87171] bg-[#222222] transition-all"
+              >
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5" aria-hidden="true"></i>
+              </button>
+              <button 
+                id="viewBtnList" 
+                onclick="switchViewMode('list')" 
+                title="Список файлов" 
+                aria-label="Список файлов"
+                class="h-7 w-7 flex items-center justify-center rounded text-[#a3a3a3] hover:text-white transition-all ml-0.5"
+              >
+                <i data-lucide="list" class="w-3.5 h-3.5" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <!-- Create Subfolder Button (Available inside specific subjects) -->
+            <button 
+              onclick="openCreateSubfolderModal()" 
+              id="btnCreateSubfolder"
+              class="hidden h-9 items-center space-x-1.5 px-3 btn-tactile-secondary text-xs text-[#f87171] hover:text-white font-bold uppercase tracking-wider rounded-lg transition-all"
+              title="Создать подпапку в текущем предмете"
+              aria-label="Создать подпапку в текущем предмете"
+            >
+              <i data-lucide="folder-plus" class="w-3.5 h-3.5 text-[#f87171]" aria-hidden="true"></i>
+              <span class="hidden sm:inline">Новая папка</span>
+            </button>
+
+            <!-- Download Current Subject as ZIP (Available strictly inside specific subjects, blocked for ALL files) -->
+            <button 
+              onclick="downloadCurrentSubjectZip()" 
+              id="btnDownloadZip"
+              class="hidden h-9 items-center space-x-1.5 px-3 btn-tactile-secondary text-xs text-[#cccccc] hover:text-white font-bold uppercase tracking-wider rounded-lg transition-all"
+              title="Скачать файлы выбранного предмета одним ZIP архивом"
+              aria-label="Скачать файлы выбранного предмета одним ZIP архивом"
+            >
+              <i data-lucide="archive" class="w-3.5 h-3.5 text-amber-500" aria-hidden="true"></i>
+              <span id="btnDownloadZipText">Скачать папку (ZIP)</span>
+            </button>
+
+            <!-- Upload Files (Tactile Primary Button) -->
+            <button 
+              onclick="triggerFileInput()" 
+              class="h-9 inline-flex items-center space-x-1.5 px-3.5 sm:px-4 btn-tactile-primary text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all"
+              aria-label="Загрузить файлы"
+            >
+              <i data-lucide="upload" class="w-3.5 h-3.5" aria-hidden="true"></i>
+              <span>Загрузить</span>
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- TACTILE DRAG & DROP ZONE -->
+        <div 
+          id="dropZone" 
+          role="button"
+          tabindex="0"
+          aria-label="Зона загрузки файлов. Нажмите или перетащите файлы сюда"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); triggerFileInput();}"
+          class="border-2 border-dashed border-[#242424] hover:border-[#970000] bg-[#101010] hover:bg-[#850000]/5 rounded-xl p-5 sm:p-6 text-center cursor-pointer transition-all group focus:outline-none focus:border-[#ef4444]"
+          onclick="triggerFileInput()"
+        >
+          <input type="file" id="filePickerInput" multiple class="hidden" onclick="event.stopPropagation()" onchange="handleFileInputChange(event)">
+          <div class="flex flex-col items-center justify-center space-y-2 pointer-events-none">
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[#161616] group-hover:bg-[#850000]/20 text-[#888888] group-hover:text-[#f87171] border border-[#242424] group-hover:border-[#850000]/40 flex items-center justify-center transition-all">
+              <i data-lucide="cloud-upload" class="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true"></i>
+            </div>
+            <div>
+              <p id="dropZoneTextPrompt" class="text-xs font-bold text-[#dddddd] group-hover:text-[#f87171] transition-colors">
+                Перетащите файлы сюда или нажмите для выбора
+              </p>
+              <p class="text-[11px] text-[#a3a3a3] mt-0.5">
+                Поддерживаются любые файлы: лекции, лабы, архивы, фото, видео (до 50 МБ на файл)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- UPLOAD PROGRESS BANNER -->
+        <div id="uploadProgressBanner" role="status" aria-live="polite" class="hidden p-3.5 bg-[#161616] border border-[#850000]/40 rounded-xl space-y-2">
+          <div class="flex items-center justify-between text-xs text-[#f87171]">
+            <span id="uploadProgressText" class="font-medium flex items-center space-x-2">
+              <span class="animate-spin text-[#f87171]" aria-hidden="true">⏳</span>
+              <span>Загрузка файлов в хранилище...</span>
+            </span>
+            <span id="uploadProgressPercent" class="font-mono font-bold">0%</span>
+          </div>
+          <div class="w-full bg-[#101010] h-1.5 rounded-full overflow-hidden">
+            <div id="uploadProgressBar" class="bg-gradient-to-r from-[#970000] via-[#b50000] to-[#ef4444] h-full w-[0%] transition-all"></div>
+          </div>
+        </div>
+
+        <!-- FILES CONTAINER (Grid or List) -->
+        <div id="filesContainer" class="flex-1">
+          <!-- Populated by JS -->
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- ================= 3. MODALS ================= -->
+
+  <!-- MODAL: SELECT UPLOAD SUBJECT (When user uploads from "ALL" view) -->
+  <div 
+    id="selectUploadSubjectModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="selectUploadSubjectModalTitle"
+    onclick="if(event.target===this) closeSelectUploadSubjectModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-4 hidden"
+  >
+    <div class="w-full max-w-md bg-[#121212] border border-[#2a2a2a] rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-[#222222] pb-3">
+        <div class="flex items-center space-x-2 text-white font-bold text-sm">
+          <i data-lucide="folder-check" class="w-4 h-4 text-[#f87171]" aria-hidden="true"></i>
+          <h2 id="selectUploadSubjectModalTitle" class="text-sm font-bold text-white">Куда сохранить файлы?</h2>
+        </div>
+        <button onclick="closeSelectUploadSubjectModal()" class="text-[#a3a3a3] hover:text-white p-1 rounded-lg" aria-label="Закрыть окно">
+          <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+        </button>
+      </div>
+      <p class="text-xs text-[#a3a3a3]">
+        Вы находитесь в разделе «Все предметы». Выберите папку предмета, в которую будут помещены загружаемые файлы:
+      </p>
+      <div id="uploadSubjectOptionsList" class="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-[#222222]">
+        <button onclick="closeSelectUploadSubjectModal()" class="px-4 py-2 btn-tactile-secondary text-[#cccccc] rounded-lg text-xs font-medium">
+          Отмена
+        </button>
+        <button onclick="confirmUploadWithSelectedSubject()" class="px-5 py-2 btn-tactile-primary text-white rounded-lg text-xs font-bold uppercase tracking-wider">
+          Продолжить загрузку
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE SUBJECT -->
+  <div 
+    id="createSubjectModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="createSubjectModalTitle"
+    onclick="if(event.target===this) closeCreateSubjectModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-4 hidden"
+  >
+    <div class="w-full max-w-md bg-[#121212] border border-[#2a2a2a] rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-[#222222] pb-3">
+        <div class="flex items-center space-x-2 text-white font-bold text-sm">
+          <i data-lucide="folder-plus" class="w-4 h-4 text-[#f87171]" aria-hidden="true"></i>
+          <h2 id="createSubjectModalTitle" class="text-sm font-bold text-white">Создать новый предмет</h2>
+        </div>
+        <button onclick="closeCreateSubjectModal()" class="text-[#a3a3a3] hover:text-white p-1 rounded-lg" aria-label="Закрыть окно">
+          <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div>
+        <label for="newSubjectNameInput" class="block text-xs font-semibold text-[#a3a3a3] mb-1.5">Название предмета или темы</label>
+        <input 
+          type="text" 
+          id="newSubjectNameInput" 
+          maxlength="60"
+          placeholder="Например: Операционные системы"
+          class="w-full px-3.5 py-2.5 bg-[#161616] border border-[#2a2a2a] rounded-xl text-xs text-white placeholder-[#888888] focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444]"
+          onkeydown="if(event.key === 'Enter') submitCreateSubject()"
+        >
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-[#222222]">
+        <button onclick="closeCreateSubjectModal()" class="px-4 py-2 btn-tactile-secondary text-[#cccccc] rounded-lg text-xs font-medium">
+          Отмена
+        </button>
+        <button onclick="submitCreateSubject()" class="px-5 py-2 btn-tactile-primary text-white rounded-lg text-xs font-bold uppercase tracking-wider">
+          Создать
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RENAME SUBJECT -->
+  <div 
+    id="renameSubjectModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="renameSubjectModalTitle"
+    onclick="if(event.target===this) closeRenameSubjectModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-4 hidden"
+  >
+    <div class="w-full max-w-md bg-[#121212] border border-[#2a2a2a] rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-[#222222] pb-3">
+        <div class="flex items-center space-x-2 text-white font-bold text-sm">
+          <i data-lucide="edit-3" class="w-4 h-4 text-[#f87171]" aria-hidden="true"></i>
+          <h2 id="renameSubjectModalTitle" class="text-sm font-bold text-white">Переименовать предмет</h2>
+        </div>
+        <button onclick="closeRenameSubjectModal()" class="text-[#a3a3a3] hover:text-white p-1 rounded-lg" aria-label="Закрыть окно">
+          <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+        </button>
+      </div>
+      <input type="hidden" id="renameSubjectId">
+      <div>
+        <label for="renameSubjectInput" class="block text-xs font-semibold text-[#a3a3a3] mb-1.5">Новое название предмета</label>
+        <input 
+          type="text" 
+          id="renameSubjectInput" 
+          maxlength="60"
+          class="w-full px-3.5 py-2.5 bg-[#161616] border border-[#2a2a2a] rounded-xl text-xs text-white placeholder-[#888888] focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444]"
+          onkeydown="if(event.key === 'Enter') submitRenameSubject()"
+        >
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-[#222222]">
+        <button onclick="closeRenameSubjectModal()" class="px-4 py-2 btn-tactile-secondary text-[#cccccc] rounded-lg text-xs font-medium">
+          Отмена
+        </button>
+        <button onclick="submitRenameSubject()" class="px-5 py-2 btn-tactile-primary text-white rounded-lg text-xs font-bold uppercase tracking-wider">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE SUBFOLDER -->
+  <div 
+    id="createSubfolderModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="createSubfolderModalTitle"
+    onclick="if(event.target===this) closeCreateSubfolderModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-4 hidden"
+  >
+    <div class="w-full max-w-md bg-[#121212] border border-[#2a2a2a] rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-[#222222] pb-3">
+        <div class="flex items-center space-x-2 text-white font-bold text-sm">
+          <i data-lucide="folder-plus" class="w-4 h-4 text-amber-500" aria-hidden="true"></i>
+          <h2 id="createSubfolderModalTitle" class="text-sm font-bold text-white">Создать подпапку</h2>
+        </div>
+        <button onclick="closeCreateSubfolderModal()" class="text-[#a3a3a3] hover:text-white p-1 rounded-lg" aria-label="Закрыть окно">
+          <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div>
+        <p id="createSubfolderParentName" class="text-xs text-[#a3a3a3] mb-3"></p>
+        <label for="newSubfolderNameInput" class="block text-xs font-semibold text-[#a3a3a3] mb-1.5">Название папки (тема, лаба, практика)</label>
+        <input 
+          type="text" 
+          id="newSubfolderNameInput" 
+          maxlength="60"
+          placeholder="Например: 1 практическая, Лекция 2..." 
+          class="w-full px-3.5 py-2.5 bg-[#161616] border border-[#2a2a2a] rounded-xl text-xs text-white placeholder-[#888888] focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444]"
+          onkeydown="if(event.key === 'Enter') submitCreateSubfolder()"
+        >
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-[#222222]">
+        <button onclick="closeCreateSubfolderModal()" class="px-4 py-2 btn-tactile-secondary text-[#cccccc] rounded-lg text-xs font-medium">
+          Отмена
+        </button>
+        <button onclick="submitCreateSubfolder()" class="px-5 py-2 btn-tactile-primary text-white rounded-lg text-xs font-bold uppercase tracking-wider">
+          Создать
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RENAME SUBFOLDER -->
+  <div 
+    id="renameSubfolderModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="renameSubfolderModalTitle"
+    onclick="if(event.target===this) closeRenameSubfolderModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-4 hidden"
+  >
+    <div class="w-full max-w-md bg-[#121212] border border-[#2a2a2a] rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-[#222222] pb-3">
+        <div class="flex items-center space-x-2 text-white font-bold text-sm">
+          <i data-lucide="edit-3" class="w-4 h-4 text-[#f87171]" aria-hidden="true"></i>
+          <h2 id="renameSubfolderModalTitle" class="text-sm font-bold text-white">Переименовать подпапку</h2>
+        </div>
+        <button onclick="closeRenameSubfolderModal()" class="text-[#a3a3a3] hover:text-white p-1 rounded-lg" aria-label="Закрыть окно">
+          <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+        </button>
+      </div>
+      <input type="hidden" id="renameSubfolderId">
+      <div>
+        <label for="renameSubfolderInput" class="block text-xs font-semibold text-[#a3a3a3] mb-1.5">Новое название подпапки</label>
+        <input 
+          type="text" 
+          id="renameSubfolderInput" 
+          maxlength="60"
+          class="w-full px-3.5 py-2.5 bg-[#161616] border border-[#2a2a2a] rounded-xl text-xs text-white placeholder-[#888888] focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444]"
+          onkeydown="if(event.key === 'Enter') submitRenameSubfolder()"
+        >
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-[#222222]">
+        <button onclick="closeRenameSubfolderModal()" class="px-4 py-2 btn-tactile-secondary text-[#cccccc] rounded-lg text-xs font-medium">
+          Отмена
+        </button>
+        <button onclick="submitRenameSubfolder()" class="px-5 py-2 btn-tactile-primary text-white rounded-lg text-xs font-bold uppercase tracking-wider">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: MOVE FILE -->
+  <div 
+    id="moveFileModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="moveFileModalTitle"
+    onclick="if(event.target===this) closeMoveFileModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-4 hidden"
+  >
+    <div class="w-full max-w-md bg-[#121212] border border-[#2a2a2a] rounded-2xl p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-[#222222] pb-3">
+        <div class="flex items-center space-x-2 text-white font-bold text-sm">
+          <i data-lucide="folder-input" class="w-4 h-4 text-amber-500" aria-hidden="true"></i>
+          <h2 id="moveFileModalTitle" class="text-sm font-bold text-white">Переместить файл</h2>
+        </div>
+        <button onclick="closeMoveFileModal()" class="text-[#a3a3a3] hover:text-white p-1 rounded-lg" aria-label="Закрыть окно">
+          <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div>
+        <p id="moveFileNameDisplay" class="text-xs font-bold text-white truncate mb-2"></p>
+        <label class="block text-xs font-semibold text-[#a3a3a3] mb-2">Выберите папку назначения:</label>
+        <input type="hidden" id="moveFileTargetFileId">
+        <div id="moveFileDestinationsList" class="max-h-60 overflow-y-auto space-y-2 pr-1 custom-scrollbar"></div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t border-[#222222]">
+        <button onclick="closeMoveFileModal()" class="px-4 py-2 btn-tactile-secondary text-[#cccccc] rounded-lg text-xs font-medium">
+          Отмена
+        </button>
+        <button onclick="submitMoveFile()" class="px-5 py-2 btn-tactile-primary text-white rounded-lg text-xs font-bold uppercase tracking-wider">
+          Переместить
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: FILE PREVIEW -->
+  <div 
+    id="previewModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="previewFileName"
+    onclick="if(event.target===this) closePreviewModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-3 sm:p-6 hidden"
+  >
+    <div class="w-full max-w-4xl bg-[#111111] border border-[#2a2a2a] rounded-2xl shadow-2xl flex flex-col max-h-[92vh] overflow-hidden">
+      <!-- Preview Header -->
+      <div class="px-4 sm:px-5 py-3.5 border-b border-[#222222] flex items-center justify-between bg-[#141414] gap-2">
+        <div class="flex items-center space-x-3 min-w-0 flex-1">
+          <div id="previewIcon" class="w-8 h-8 rounded-lg bg-[#850000]/15 text-[#f87171] border border-[#850000]/30 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="file-text" class="w-4 h-4" aria-hidden="true"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <span id="previewFileName" class="text-xs font-bold text-white truncate max-w-sm sm:max-w-md block">Имя файла</span>
+            <span id="previewFileInfo" class="text-[11px] font-mono text-[#a3a3a3] block">1.2 МБ • Раздел</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <button id="previewDownloadBtn" class="px-3 py-1.5 btn-tactile-primary text-white rounded-lg text-xs font-bold flex items-center space-x-1" aria-label="Скачать файл">
+            <i data-lucide="download" class="w-3.5 h-3.5" aria-hidden="true"></i>
+            <span class="hidden sm:inline">Скачать</span>
+          </button>
+          <button onclick="closePreviewModal()" class="p-1.5 text-[#a3a3a3] hover:text-white rounded-lg hover:bg-[#202020] transition-all" aria-label="Закрыть окно предпросмотра">
+            <i data-lucide="x" class="w-5 h-5" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Preview Content -->
+      <div id="previewBody" class="flex-1 overflow-auto p-4 bg-[#0a0a0a] flex items-center justify-center min-h-[350px]">
+        <!-- Dynamic Preview Content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ACTIVE SESSIONS & DEVICE MANAGEMENT (MASTER DEVICE ONLY) -->
+  <div 
+    id="devicesModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="devicesModalTitle"
+    onclick="if(event.target===this) closeDevicesModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-3 sm:p-6 hidden"
+  >
+    <div class="w-full max-w-xl bg-[#111111] border border-[#2a2a2a] rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+      <!-- Modal Header -->
+      <div class="px-5 py-4 border-b border-[#222222] flex items-center justify-between bg-[#141414] gap-2">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-9 h-9 rounded-xl bg-[#850000]/15 text-[#f87171] border border-[#850000]/30 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="shield-check" class="w-5 h-5" aria-hidden="true"></i>
+          </div>
+          <div>
+            <h2 id="devicesModalTitle" class="text-sm font-black text-white uppercase tracking-wide">Устройства и сессии</h2>
+            <p class="text-[11px] text-[#a3a3a3]">Контроль активных входов и удаленный выход</p>
+          </div>
+        </div>
+        <button onclick="closeDevicesModal()" class="p-1.5 text-[#a3a3a3] hover:text-white rounded-lg hover:bg-[#202020] transition-all" aria-label="Закрыть окно устройств">
+          <i data-lucide="x" class="w-5 h-5" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Quick Action Summary Banner -->
+      <div class="p-4 bg-[#141414]/60 border-b border-[#1f1f1f] flex items-center justify-between gap-3 flex-wrap">
+        <div class="text-xs min-w-0">
+          <div class="flex items-center space-x-2 text-white font-semibold">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 live-dot-pulse flex-shrink-0" aria-hidden="true"></span>
+            <span class="truncate">Основное устройство: <strong class="text-emerald-400">Этот ПК</strong></span>
+          </div>
+          <p class="text-[11px] text-[#a3a3a3] mt-0.5 truncate" id="devicesStatusSummary">Загрузка списка сессий...</p>
+        </div>
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <button 
+            id="btnClearOldSessions" 
+            onclick="clearInactiveSessions()" 
+            class="px-2.5 py-1.5 text-xs font-semibold text-[#a3a3a3] hover:text-white bg-[#181818] hover:bg-[#202020] border border-[#2b2b2b] rounded-lg flex items-center space-x-1.5 transition-all shadow-sm"
+            title="Удалить из списка старые и завершённые сессии"
+          >
+            <i data-lucide="trash" class="w-3.5 h-3.5 text-[#a3a3a3]" aria-hidden="true"></i>
+            <span class="hidden xs:inline">Очистить историю</span>
+          </button>
+          <button 
+            id="btnRevokeAllCollege" 
+            onclick="revokeAllCollegeSessions()" 
+            class="px-3 py-1.5 text-xs font-bold text-rose-300 hover:text-white bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/40 rounded-lg flex items-center space-x-1.5 transition-all shadow-sm"
+            title="Завершить сессии на всех учебных компьютерах колледжа"
+          >
+            <i data-lucide="power" class="w-3.5 h-3.5 text-rose-400" aria-hidden="true"></i>
+            <span>Завершить все в колледже</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Weekly Code Delivery Card for Master Device -->
+      <div class="px-5 py-3.5 bg-gradient-to-r from-[#171717] via-[#1a1414] to-[#171717] border-b border-[#242424] flex items-center justify-between gap-3 flex-wrap">
+        <div class="flex items-center space-x-3 min-w-0">
+          <div class="w-10 h-10 rounded-xl bg-[#850000]/20 text-[#f87171] border border-[#850000]/40 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="key-round" class="w-5 h-5" aria-hidden="true"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-[10px] font-mono uppercase tracking-wider text-[#a3a3a3] font-bold">Код для пар на эту неделю</div>
+            <div class="flex items-center space-x-2 mt-0.5">
+              <span id="modalWeeklyCodeValue" class="font-mono text-base sm:text-lg font-black text-[#888888] tracking-widest bg-[#111111] px-2.5 py-0.5 rounded-lg border border-[#850000]/50 shadow-inner select-all transition-colors">••••</span>
+              <span id="modalWeeklyCodeExpires" class="text-[11px] text-[#888888] truncate">До понедельника</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-2 flex-shrink-0">
+          <!-- Reveal / Hide Button -->
+          <button 
+            type="button" 
+            id="btnToggleModalCode"
+            onclick="toggleWeeklyCodeMask()" 
+            class="px-3 py-1.5 btn-tactile-secondary text-xs text-[#cccccc] hover:text-white rounded-lg flex items-center space-x-1.5 transition-all"
+            title="Показать или скрыть код доступа"
+          >
+            <i data-lucide="eye" id="modalCodeEyeIcon" class="w-3.5 h-3.5 text-[#f87171]" aria-hidden="true"></i>
+            <span id="modalCodeRevealBtnText">Показать</span>
+          </button>
+
+          <!-- Copy Button -->
+          <button 
+            type="button" 
+            onclick="copyWeeklyCodeToClipboard()" 
+            class="px-3 py-1.5 btn-tactile-secondary text-xs text-[#cccccc] hover:text-white rounded-lg flex items-center space-x-1.5 transition-all"
+            title="Скопировать код в буфер обмена"
+          >
+            <i data-lucide="copy" class="w-3.5 h-3.5 text-[#a3a3a3]" aria-hidden="true"></i>
+            <span>Скопировать</span>
+          </button>
+
+          <!-- Desktop Notification Toggle -->
+          <button 
+            type="button" 
+            id="btnToggleDesktopNotifications"
+            onclick="toggleDesktopNotifications()" 
+            class="px-3 py-1.5 btn-tactile-secondary text-xs text-[#cccccc] hover:text-white rounded-lg flex items-center space-x-1.5 transition-all"
+            title="Присылать уведомление на этот ПК каждый понедельник"
+          >
+            <i data-lucide="bell" id="bellIcon" class="w-3.5 h-3.5 text-[#a3a3a3]" aria-hidden="true"></i>
+            <span id="notificationBtnText">Уведомления на ПК</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Devices List Container -->
+      <div id="devicesListContainer" class="flex-1 overflow-y-auto p-4 space-y-2.5 min-h-[200px] max-h-[380px]">
+        <!-- Dynamic Device Cards Injected Here -->
+      </div>
+
+      <!-- Footer Info -->
+      <div class="px-5 py-3 border-t border-[#222222] bg-[#0d0d0d] flex items-center justify-between text-[11px] text-[#777777] gap-2">
+        <span class="flex items-center space-x-1.5 min-w-0 truncate">
+          <i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-500/80 flex-shrink-0" aria-hidden="true"></i>
+          <span class="truncate">ПК в колледже изолированы и не могут завершить вашу домашнюю сессию</span>
+        </span>
+        <button onclick="closeDevicesModal()" class="px-3 py-1 btn-tactile-secondary text-[#cccccc] rounded-lg text-xs font-medium flex-shrink-0">
+          Закрыть
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: INTERACTIVE WEEKLY CODE REVEAL DIALOG (MASTER ONLY) -->
+  <div 
+    id="weeklyCodeModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="weeklyCodeModalTitle"
+    onclick="if(event.target===this) closeWeeklyCodeModal()"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-4 hidden"
+  >
+    <div class="w-full max-w-sm bg-[#121212] border border-[#2a2a2a] rounded-2xl p-5 sm:p-6 shadow-2xl space-y-4 relative overflow-hidden transform transition-all duration-200">
+      
+      <!-- Ambient red glow corner lights -->
+      <div class="absolute -top-16 -right-16 w-36 h-36 bg-[#970000]/25 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-16 -left-16 w-36 h-36 bg-[#6e0000]/20 rounded-full blur-2xl pointer-events-none"></div>
+
+      <!-- Header with Close button -->
+      <div class="flex items-center justify-between pb-3 border-b border-[#202020]">
+        <div class="flex items-center space-x-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-lg bg-[#850000]/20 text-[#f87171] border border-[#850000]/40 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="key-round" class="w-4 h-4" aria-hidden="true"></i>
+          </div>
+          <div>
+            <h2 id="weeklyCodeModalTitle" class="text-xs font-black text-white uppercase tracking-wider font-sans">Код для пар в колледже</h2>
+            <p class="text-[10px] text-[#888888]">Персональный PIN на эту неделю</p>
+          </div>
+        </div>
+        <button onclick="closeWeeklyCodeModal()" class="p-1 text-[#888888] hover:text-white rounded-lg hover:bg-[#1f1f1f] transition-all" aria-label="Закрыть окно">
+          <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Interactive Reveal Card -->
+      <div class="text-center py-2 space-y-3">
+        <!-- Tap-To-Reveal Box -->
+        <div 
+          id="revealCodeContainer"
+          onclick="toggleWeeklyCodeMask()"
+          role="button"
+          tabindex="0"
+          aria-label="Показать или скрыть код доступа"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); toggleWeeklyCodeMask();}"
+          class="p-4 bg-[#0a0a0a] border border-[#2b2b2b] hover:border-[#850000] rounded-xl cursor-pointer select-none transition-all group relative overflow-hidden"
+        >
+          <!-- Digits container -->
+          <div class="flex justify-center items-center gap-2 py-1">
+            <span id="revealDigit0" class="w-11 h-13 flex items-center justify-center font-mono text-2xl font-black bg-[#161616] text-[#8c8c8c] border border-[#252525] rounded-xl shadow-inner transition-all">•</span>
+            <span id="revealDigit1" class="w-11 h-13 flex items-center justify-center font-mono text-2xl font-black bg-[#161616] text-[#8c8c8c] border border-[#252525] rounded-xl shadow-inner transition-all">•</span>
+            <span id="revealDigit2" class="w-11 h-13 flex items-center justify-center font-mono text-2xl font-black bg-[#161616] text-[#8c8c8c] border border-[#252525] rounded-xl shadow-inner transition-all">•</span>
+            <span id="revealDigit3" class="w-11 h-13 flex items-center justify-center font-mono text-2xl font-black bg-[#161616] text-[#8c8c8c] border border-[#252525] rounded-xl shadow-inner transition-all">•</span>
+          </div>
+
+          <!-- Status badge below digits -->
+          <div class="mt-2.5 flex items-center justify-center space-x-1.5 text-[10px] font-mono">
+            <i data-lucide="eye" id="revealStatusIcon" class="w-3 h-3 text-[#a3a3a3] group-hover:text-[#f87171] transition-colors" aria-hidden="true"></i>
+            <span id="revealStatusText" class="text-[#8c8c8c] group-hover:text-white transition-colors">Скрыто для безопасности</span>
+          </div>
+        </div>
+
+        <!-- Expiration info -->
+        <div class="flex items-center justify-center space-x-1.5 text-[11px] text-[#a3a3a3]">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#f87171]" aria-hidden="true"></i>
+          <span id="revealExpiresText">Действует до понедельника</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-2 pt-1 border-t border-[#1f1f1f]">
+        <button 
+          type="button" 
+          onclick="copyWeeklyCodeToClipboard()" 
+          class="w-full py-2.5 btn-tactile-primary text-white rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2"
+        >
+          <i data-lucide="copy" class="w-3.5 h-3.5" aria-hidden="true"></i>
+          <span>Скопировать код</span>
+        </button>
+
+        <button 
+          type="button" 
+          onclick="toggleWeeklyCodeMask()" 
+          id="btnDialogToggleMask"
+          class="w-full py-2 btn-tactile-secondary text-[#cccccc] hover:text-white rounded-xl text-xs font-semibold flex items-center justify-center space-x-1.5"
+        >
+          <i data-lucide="eye" id="dialogEyeIcon" class="w-3.5 h-3.5 text-[#f87171]" aria-hidden="true"></i>
+          <span id="dialogToggleMaskText">Показать код</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: CUSTOM DIALOG (REPLACES NATIVE BROWSER ALERTS & CONFIRMS) -->
+  <div 
+    id="customDialogModal" 
+    role="dialog" 
+    aria-modal="true" 
+    tabindex="-1"
+    aria-labelledby="dialogTitle"
+    onclick="if(event.target===this) { const cancel = document.getElementById('dialogCancelBtn'); if(cancel && !cancel.classList.contains('hidden')) cancel.click(); else document.getElementById('dialogConfirmBtn')?.click(); }"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-[#070707]/90 backdrop-blur-md p-4 hidden"
+  >
+    <div id="customDialogBox" class="w-full max-w-md bg-[#121212] border border-[#2a2a2a] rounded-2xl p-6 shadow-2xl space-y-4 relative overflow-hidden transform transition-all duration-200 scale-95 opacity-0">
+      
+      <!-- Ambient red glow -->
+      <div class="absolute -top-16 -right-16 w-36 h-36 bg-[#970000]/20 rounded-full blur-2xl pointer-events-none"></div>
+
+      <!-- Header with Icon -->
+      <div class="flex items-start space-x-3.5">
+        <div id="dialogIconContainer" class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 border">
+          <!-- Icon injected dynamically -->
+        </div>
+        <div class="min-w-0 flex-1">
+          <h2 id="dialogTitle" class="text-sm font-black text-white tracking-wide uppercase font-sans">Уведомление</h2>
+          <div id="dialogMessage" class="text-xs text-[#cccccc] mt-2 leading-relaxed whitespace-pre-line"></div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-end space-x-2 pt-3 border-t border-[#202020]">
+        <button id="dialogCancelBtn" type="button" class="px-4 py-2 btn-tactile-secondary text-[#cccccc] hover:text-white rounded-lg text-xs font-semibold hidden">
+          Отмена
+        </button>
+        <button id="dialogConfirmBtn" type="button" class="px-5 py-2 btn-tactile-primary text-white rounded-lg text-xs font-bold uppercase tracking-wider">
+          ОК
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Load Data & Main Script -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
